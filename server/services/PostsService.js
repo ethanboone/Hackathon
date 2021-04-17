@@ -24,6 +24,7 @@ class PostsService {
         if (!data) {
             throw new BadRequest('Invalid Id')
         }
+        console.log(data)
         return data
     }
 

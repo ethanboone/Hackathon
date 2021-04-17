@@ -17,21 +17,49 @@ function _draw() {
 export default class PostsController {
   constructor() {
     ProxyState.on('posts', _draw)
-    _draw()
+
+    this.getPosts()
   }
 
-  addPost() {
-    window.event.preventDefault()
-    const form = window.event.target
-    const newPost = {
-      title: form.title.value,
-      imgUrl: form.imgUrl.value,
-      description: form.description.value
+  async getPosts() {
+    try {
+      await postsService.getPosts()
+    } catch (error) {
+      console.error(error)
     }
-    postsService.addPost(newPost)
+  }
 
-    form.reset()
-    // TODO -----------------------------------------
-    document.getElementById('new-post-form').modal('hide')
+  async addPost() {
+    try {
+      window.event.preventDefault()
+      const form = window.event.target
+      const newPost = {
+        title: form.title.value,
+        imgUrl: form.imgUrl.value,
+        description: form.description.value,
+        upvotes: 0
+      }
+      await postsService.addPost(newPost)
+      form.reset()
+      $('#new-post-form').modal('hide')
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  async upvote(id) {
+    try {
+      await postsService.upvote(id)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  async delete(id) {
+    try {
+      await postsService.delete(id)
+    } catch (error) {
+      console.error(error)
+    }
   }
 }
