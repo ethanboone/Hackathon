@@ -38,7 +38,7 @@ export class PostsController extends BaseController {
             // NOTE NEVER TRUST THE CLIENT TO ADD THE CREATOR ID
             req.body.creatorId = req.userInfo.id
             let data = await postsService.create(req.body)
-            return res.send(req.body)
+            return res.send(data)
         } catch (error) {
             next(error)
         }
